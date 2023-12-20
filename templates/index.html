@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informations sur les fichiers</title>
+
+    <!-- Inclure le CSS de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- Inclure le CSS de DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+
+    <!-- Inclure jQuery et les scripts de DataTables -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Informations sur les fichiers</h1>
+
+        <!-- Barre de recherche -->
+        <input type="text" id="searchInput" class="form-control mb-4" placeholder="Rechercher...">
+
+        <!-- Tableau avec DataTables -->
+        <table id="fileTable" class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nom de fichier</th>
+                    <th>Chemin</th>
+                    <th>Dossier</th>
+                    <th>Extension</th>
+                    <th>Taille (KB)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for document in documents %}
+                    <tr>
+                        <td>{{ document[0] }}</td>
+                        <td>{{ document[1] }}</td>
+                        <td>{{ document[2] }}</td>
+                        <td>{{ document[3] }}</td>
+                        <td>{{ document[4] }}</td>
+                        <td>{{ document[5] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Initialisation de DataTables avec tri et recherche
+            $('#fileTable').DataTable({
+                "order": [[0, "asc"]], // Trier par ID par défaut en ordre croissant
+                "paging": true,
+                "info": false,
+                "searching": true
+            });
+
+            // Ajouter la fonctionnalité de recherche
+            $('#searchInput').on('keyup', function() {
+                $('#fileTable').DataTable().search($(this).val()).draw();
+            });
+        });
+    </script>
+</body>
+</html>
